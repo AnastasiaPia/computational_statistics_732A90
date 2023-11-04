@@ -3,37 +3,102 @@ title: "Lab1"
 author: "Anastasia Piadi-Nazli Bilgic"
 date: "`r Sys.Date()`"
 output: pdf_document
+header-includes:
+  - "\\usepackage{newunicodechar}"
+  - "\\newunicodechar{−}{-}"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+Question 2:
+
+a) Write your own R function, myvar, to estimate the variance in this way.
+
+```{r,echo=FALSE}
+myvar <- function(x) {
+  n <- length(x)
+  return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
+}
+ex_data<-c(1,2,3,4)
+cat("myvar function with the example data(c(1,2,3,4)):",myvar(ex_data), "\n")
+cat("var function with the example data(c(1,2,3,4)):",var(ex_data))
 ```
 
-## R Markdown
+b) Generate a vector x = (x1, . . . , x10000) with 10000 random numbers with mean 108 and variance 1.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+In the myvar function formula we have subtraction. When we have two large and nearly equal numbers this causes problems with the calculation. For example, for this example we got a negative number for the variance calculation.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+```{r,echo=FALSE, fig.cap=""}
+myvar <- function(x) {
+  n <- length(x)
+  return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
+}
+set.seed(123)
+n <- 10000
+mean_value <- 10^8
+variance<-1
+std_dev <- sqrt(variance)
+x <- rnorm(n, mean = mean_value, sd = std_dev)
 
-```{r cars}
-summary(cars)
+cat("myvar function output with random data:",myvar(x), "\n")
+cat("var function output with random data:",var(x))
 ```
 
-## Including Plots
+c) For each subset Xi = {x1,...,xi}, i = 1,...,10000 compute the difference Yi = myvar(Xi) − var(Xi), where var(Xi) is the standard variance estimation function in R. Plot the dependence Yi on i. Draw conclusions from this plot. How well does your function work? Can you explain the behaviour?
 
-You can also embed plots, for example:
+From the graph(Yi=difference between myvar and var func., i=size of subset) we can see that, as i increases the difference between myvar and var function changes. This shows that the estimations vary. Difference start to get positive after i=2000,  myvar function start to produce higher variance estimates then the var function. around i=8000 the difference start to decrease, the myvar function starts to give close results to the var function.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r, echo=FALSE, fig.cap=""}
+myvar <- function(x) {
+  n <- length(x)
+  return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
+}
+
+set.seed(123)
+n <- 10000
+mean_value <- 10^8
+variance<-1
+std_dev <- sqrt(variance)
+x <- rnorm(n, mean = mean_value, sd = std_dev)
+
+computed_variance <- myvar(x)
+difference_fnctns <- numeric(n)
+for (i in 1:n) {
+  x_sub <- x[1:i]
+  difference_fnctns[i] <- myvar(x_sub) - var(x_sub)
+}
+plot(1:n, difference_fnctns, type="l", col="red", main="myvar and R's var function difference", xlab="i", ylab="Yi")
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
+d) How can you better implement a variance estimator? Find and implement a formula that will give the same results as var().
 
+We used two-pass method to calculate variance in another way. In two-pass method, we first compute the sample mean then the sum of the squares of the differences from the mean. At the end, we compare the results that we get with the random vector from both methods. The results from the two-pass and var function are same. To conclude, we get better result with two-pass method fro this example.
 
+```{r,echo=FALSE, fig.cap="Two-pass Akgorithm"}
+var_two_pass <- function(x) {
+  # sample mean calculation
+  n <- length(x)
+  mean_val <- sum(x) / n
 
+  # compute the sum of the squares of the differences from the mean
+  sum_sq_diffs <- sum((x - mean_val)^2)
 
-```{r}
+  return(sum_sq_diffs / (n - 1))
+}
+set.seed(123)
+n <- 10000
+mean_value <- 10^8
+variance <- 1
+std_dev <- sqrt(variance)
+x <- rnorm(n, mean = mean_value, sd = std_dev)
+
+cat("Var function output:", var(x), "\n")
+cat("Two-pass variance output:", var_two_pass(x))
 
 ```
+
+
+
+
+
 
