@@ -1,6 +1,6 @@
 ---
 title: "Lab1"
-author: "Anastasia Piadi-Nazli Bilgic"
+author: "Anastasia Piadi, Nazli Bilgic"
 date: "`r Sys.Date()`"
 output: pdf_document
 header-includes:
