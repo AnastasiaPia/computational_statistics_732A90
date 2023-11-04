@@ -24,7 +24,7 @@ cat("var function with the example data(c(1,2,3,4)):",var(ex_data))
 
 b) Generate a vector x = (x1, . . . , x10000) with 10000 random numbers with mean 108 and variance 1.
 
-In the myvar function formula we have subtraction. When we have two large and nearly equal numbers this causes problems with the calculation. For example, for this example we got a negative number for the variance calculation.
+The formula for varinace in myvar function has subtraction process. When we have two large and nearly equal numbers this causes differences with the calculation. For this example we got a negative number for the variance calculation.
 
 ```{r,echo=FALSE, fig.cap=""}
 myvar <- function(x) {
