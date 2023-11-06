@@ -1,6 +1,5 @@
 library(ggplot2)
 
-# Your provided two-pass variance computation function
 var_two_pass <- function(x) {
   n <- length(x)
   mean_val <- sum(x) / n
@@ -17,13 +16,11 @@ std_dev <- sqrt(variance)
 num_datasets <- 100
 differences <- numeric(num_datasets)
 
-# Compute differences for multiple datasets
 for (i in 1:num_datasets) {
   x <- rnorm(n, mean = mean_value, sd = std_dev)
   differences[i] <- var_two_pass(x) - var(x)
 }
 
-# Plot the differences
 df <- data.frame(dataset = 1:num_datasets, difference = differences)
 ggplot(df, aes(x = dataset, y = difference)) +
   geom_point() +
