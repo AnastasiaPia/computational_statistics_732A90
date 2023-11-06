@@ -12,7 +12,7 @@ Question 2:
 
 a) Write your own R function, myvar, to estimate the variance in this way.
 
-```{r,echo=FALSE}
+```{r Question2 a,echo=FALSE, fig.cap=""}
 myvar <- function(x) {
   n <- length(x)
   return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
@@ -25,7 +25,7 @@ cat("var function with the example data(c(1,2,3,4)):",var(ex_data))
 b) Generate a vector x = (x1, . . . , x10000) with 10000 random numbers with mean 108 and variance 1.
 
 
-```{r,echo=FALSE, fig.cap=""}
+```{r Question2 b,echo=FALSE, fig.cap=""}
 myvar <- function(x) {
   n <- length(x)
   return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
@@ -47,7 +47,7 @@ The difference between myvar and var function can be attributed to the way float
 
 source:https://en.wikipedia.org/wiki/Floating-point_arithmetic#IEEE_754:_floating_point_in_modern_computers
 
-```{r, echo=FALSE, fig.cap=""}
+```{r Question2 c, echo=FALSE, fig.cap=""}
 myvar <- function(x) {
   n <- length(x)
   return((sum(x^2) - (sum(x)^2) / n) / (n - 1))
@@ -75,7 +75,7 @@ d) How can you better implement a variance estimator? Find and implement a formu
 
 We used two-pass method to calculate variance in another way. In two-pass method, we first compute the sample mean then the sum of the squares of the differences from the mean. 
 
-```{r,echo=FALSE}
+```{r Question2 d,echo=FALSE, fig.cap=""}
 library(ggplot2)
 
 var_two_pass <- function(x) {
@@ -111,6 +111,23 @@ ggplot(df, aes(x = dataset, y = difference)) +
 ```
 
 
+
+#Appendix
+
+##Appendix A: Code for the questions
+
+
+```{r ref-appendix, echo=FALSE, results='asis'}
+all_labels <- knitr::all_labels()
+for (label in all_labels) {
+  if (label != "ref-appendix") {  # Skip the appendix chunk itself
+    cat("### Chunk Label: ", label, "\n\n")
+    cat("```r\n")
+    code <- knitr::knit_code$get(label)
+    cat(paste(code, collapse = "\n"))  # Ensure each line is separated
+    cat("\n```\n\n")
+  }
+}
 
 
 
