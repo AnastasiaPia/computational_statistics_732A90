@@ -24,7 +24,6 @@ cat("var function with the example data(c(1,2,3,4)):",var(ex_data))
 
 b) Generate a vector x = (x1, . . . , x10000) with 10000 random numbers with mean 108 and variance 1.
 
-The formula for varinace in myvar function has subtraction process. When we have two large and nearly equal numbers this causes differences with the calculation. For this example we got a negative number for the variance calculation.
 
 ```{r,echo=FALSE, fig.cap=""}
 myvar <- function(x) {
@@ -44,7 +43,9 @@ cat("var function output with random data:",var(x))
 
 c) For each subset Xi = {x1,...,xi}, i = 1,...,10000 compute the difference Yi = myvar(Xi) − var(Xi), where var(Xi) is the standard variance estimation function in R. Plot the dependence Yi on i. Draw conclusions from this plot. How well does your function work? Can you explain the behaviour?
 
-From the graph(Yi=difference between myvar and var func., i=size of subset) we can see that, as i increases the difference between myvar and var function changes. This shows that the estimations vary. Difference start to get positive after i=2000,  myvar function start to produce higher variance estimates then the var function. around i=8000 the difference start to decrease, the myvar function starts to give close results to the var function.
+The difference between myvar and var function can be attributed to the way floating point arithmetic works in computers. This can lead to precision errors, especially when dealing with a combination of very large and very small numbers.
+
+source: https://en.wikipedia.org/wiki/Floating-point_arithmetic#IEEE_754:_floating_point_in_modern_computers
 
 ```{r, echo=FALSE, fig.cap=""}
 myvar <- function(x) {
