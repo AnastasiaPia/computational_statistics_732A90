@@ -66,7 +66,7 @@ for (i in 1:n) {
   x_sub <- x[1:i]
   difference_fnctns[i] <- myvar(x_sub) - var(x_sub)
 }
-plot(1:n, difference_fnctns, type="l", col="red", main="myvar and R's var function difference", xlab="i", ylab="Yi")
+plot(difference_fnctns)
 
 ```
 
