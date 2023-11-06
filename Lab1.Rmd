@@ -45,7 +45,7 @@ c) For each subset Xi = {x1,...,xi}, i = 1,...,10000 compute the difference Yi =
 
 The difference between myvar and var function can be attributed to the way floating point arithmetic works in computers. This can lead to precision errors, especially when dealing with a combination of very large and very small numbers.
 
-source: https://en.wikipedia.org/wiki/Floating-point_arithmetic#IEEE_754:_floating_point_in_modern_computers
+source:https://en.wikipedia.org/wiki/Floating-point_arithmetic#IEEE_754:_floating_point_in_modern_computers
 
 ```{r, echo=FALSE, fig.cap=""}
 myvar <- function(x) {
@@ -75,26 +75,38 @@ d) How can you better implement a variance estimator? Find and implement a formu
 
 We used two-pass method to calculate variance in another way. In two-pass method, we first compute the sample mean then the sum of the squares of the differences from the mean. At the end, we compare the results that we get with the random vector from both methods. The results from the two-pass and var function are same. To conclude, we get better result with two-pass method fro this example.
 
-```{r,echo=FALSE, fig.cap="Two-pass Akgorithm"}
+```{r,echo=FALSE}
+library(ggplot2)
+
 var_two_pass <- function(x) {
-  # sample mean calculation
   n <- length(x)
   mean_val <- sum(x) / n
-
-  # compute the sum of the squares of the differences from the mean
   sum_sq_diffs <- sum((x - mean_val)^2)
-
   return(sum_sq_diffs / (n - 1))
 }
+
 set.seed(123)
 n <- 10000
 mean_value <- 10^8
 variance <- 1
 std_dev <- sqrt(variance)
-x <- rnorm(n, mean = mean_value, sd = std_dev)
 
-cat("Var function output:", var(x), "\n")
-cat("Two-pass variance output:", var_two_pass(x))
+num_datasets <- 100
+differences <- numeric(num_datasets)
+
+for (i in 1:num_datasets) {
+  x <- rnorm(n, mean = mean_value, sd = std_dev)
+  differences[i] <- var_two_pass(x) - var(x)
+}
+
+df <- data.frame(dataset = 1:num_datasets, difference = differences)
+ggplot(df, aes(x = dataset, y = difference)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Difference between two-pass and var functions",
+       x = "Dataset number",
+       y = "Difference in variance")
+
 
 ```
 
