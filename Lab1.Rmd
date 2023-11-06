@@ -75,6 +75,8 @@ d) How can you better implement a variance estimator? Find and implement a formu
 
 We used two-pass method to calculate variance in another way. In two-pass method, we first compute the sample mean then the sum of the squares of the differences from the mean. 
 
+source: https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
+
 ```{r Question2 d,echo=FALSE, fig.cap=""}
 library(ggplot2)
 
