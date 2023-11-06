@@ -8,11 +8,9 @@ cauchy_dist <- function() {
 
   theta_values <- seq(-4, 4, by = 0.01) #-4 to 4
 
-  # Calculate log likelihood and derivative for each theta value
   calculation_dist <- sapply(theta_values, function(b) -n * log(a) - sum(log(1 + (x - b)^2)))
   derivative_dist <- sapply(theta_values, function(b) sum(2 * (x - b) / (1 + (x - b)^2)))
 
-  # Plot log likelihood
   plot(theta_values, calculation_dist, type = "l", col = "blue",
        main = "Log Likelihood Function and its Derivative",
        xlab = expression(theta), ylab = "Value")
