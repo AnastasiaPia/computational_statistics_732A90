@@ -7,7 +7,7 @@ header-includes:
   - "\\usepackage{newunicodechar}"
   - "\\newunicodechar{−}{-}"
 ---
-Question 1:
+Question 1;
 
 a) Plot the log likelihood function for the given data in the range from -4 to 4. Plot the derivative in the same range and check visually how often the derivative is equal to 0.
 
