@@ -7,6 +7,91 @@ header-includes:
   - "\\usepackage{newunicodechar}"
   - "\\newunicodechar{−}{-}"
 ---
+Question 1:
+
+a) Plot the log likelihood function for the given data in the range from -4 to 4. Plot the derivative in the same range and check visually how often the derivative is equal to 0.
+
+From the derivative plot we can see that the derivative is equal to 0, 3 times.
+```{r}
+log_likeli <- function() {
+  x <- c(-2.8, 3.4, 1.2, -0.3, -2.6)
+  n <- length(x)
+  theta_values <- seq(-4, 4, by = 0.01)
+
+  log_likelihood <- sapply(theta_values, function(b) -n * log(pi) - sum(log(1 + (x - b)^2)))
+  derivative <- sapply(theta_values, function(b) sum(2 * (x - b) / (1 + (x - b)^2)))
+
+  # Plot log-likelihood
+  plot(theta_values, log_likelihood, type = "l", col = "blue",
+       main = "Log Likelihood Function",
+       xlab = expression(theta), ylab = "Log Likelihood")
+
+  # Plot the derivative
+  plot(theta_values, derivative, type = "l", col = "red",
+       main = "Derivative of the Log Likelihood Function",
+       xlab = expression(theta), ylab = "Derivative")
+  abline(h = 0, col = "purple", lty = 2)
+
+}
+
+log_likeli()
+
+```
+b) Choose one of the following methods: bisection, secant, or Newton-Raphson. Write your own code to optimize with the chosen method. If you have chosen Newton-Raphson, describe how you derived the second derivative.
+
+source:https://en.wikipedia.org/wiki/Secant_method
+
+```{r}
+log_likeli <- function() {
+  x <- c(-2.8, 3.4, 1.2,-0.3,-2.6)
+  n <- length(x)
+  theta_values <- seq(-4, 4, by = 0.01)
+
+  derivative_func <- function(theta) {
+    sum(2 * (x - theta) / (1 + (x - theta) ^ 2))
+  }
+  secant_method <-
+    function(f,
+             x0,
+             x1,
+             epsilon = 1e-8,
+             max_iter = 100) {
+      for (i in 1:max_iter) {
+        fx1 <- f(x1)
+        fx0 <- f(x0)
+        if (fx1 - fx0 == 0) {
+          stop("Division by zero in secant method.")
+        }
+        x2 <- x1 - fx1 * (x1 - x0) / (fx1 - fx0)
+        if (abs(x2 - x1) < epsilon) {
+          cat("Secant method converged at iteration:", i, "\n")
+          return(x2)
+        }
+        x0 <- x1
+        x1 <- x2
+      }
+      stop("Secant method did not converge within the specified number of iterations.")
+    }
+
+  # Find the root using the secant method with initial guesses
+  root <- secant_method(derivative_func,-4, 4)
+
+
+  return(root)
+}
+root <- log_likeli()
+print(paste("Root:", root))
+
+```
+
+c) Choose suitable starting values based on your plots to identify all local maxima of the likelihood function. Note that you need pairs of interval boundaries for the bisection or pairs of starting values for secant. Are there any (pairs of) starting values which do not lead to a local maximum? Decide which is the global maximum based on programming results.
+
+
+
+
+
+d)
+
 
 Question 2:
 
