@@ -1,24 +1,29 @@
-library(ggplot2)
-
-cauchy_dist <- function() {
-
+log_likeli <- function() {
   x <- c(-2.8, 3.4, 1.2, -0.3, -2.6)
   n <- length(x)
-  a <- pi
+  theta_values <- seq(-4, 4, by = 0.01)
 
-  theta_values <- seq(-4, 4, by = 0.01) #-4 to 4
+  log_likelihood <- sapply(theta_values, function(b) -n * log(pi) - sum(log(1 + (x - b)^2)))
+  derivative <- sapply(theta_values, function(b) sum(2 * (x - b) / (1 + (x - b)^2)))
 
-  calculation_dist <- sapply(theta_values, function(b) -n * log(a) - sum(log(1 + (x - b)^2)))
-  derivative_dist <- sapply(theta_values, function(b) sum(2 * (x - b) / (1 + (x - b)^2)))
+  # Plot log-likelihood
+  plot(theta_values, log_likelihood, type = "l", col = "blue",
+       main = "Log Likelihood Function",
+       xlab = expression(theta), ylab = "Log Likelihood")
 
-  plot(theta_values, calculation_dist, type = "l", col = "blue",
-       main = "Log Likelihood Function and its Derivative",
-       xlab = expression(theta), ylab = "Value")
-  lines(theta_values, derivative_dist, col = "red")
-  abline(h = 0, col = "green", lty = 2) # Line to visually see when the derivative is zero
-  legend("topright", legend = c("Log Likelihood", "Derivative"),
-         fill = c("blue", "red"))
+  # Plot the derivative
+  plot(theta_values, derivative, type = "l", col = "red",
+       main = "Derivative of the Log Likelihood Function",
+       xlab = expression(theta), ylab = "Derivative")
+  abline(h = 0, col = "purple", lty = 2)
+
+  secant<-function(f,x0, x1,epsilon, max_iter){
+iterations<-0
+while(iterations<=max_iter){
+
 }
 
-# Call the function to display the plot
-cauchy_dist()
+  }
+}
+
+log_likeli()
